@@ -25,7 +25,11 @@ namespace {
 
 using namespace iretable;
 
-constexpr const char* kVersion = "1.0.0";
+// Set by CMakeLists.txt from project(VERSION), so it matches the release zip.
+#ifndef IRETABLE_VERSION
+#error "IRETABLE_VERSION is not defined; build with CMake."
+#endif
+constexpr const char* kVersion = IRETABLE_VERSION;
 
 int usage(std::ostream& out) {
     out << "iretable " << kVersion << " - a toolkit for Pointer Lab .iretable project files\n"

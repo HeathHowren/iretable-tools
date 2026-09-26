@@ -3,6 +3,22 @@
 All notable changes to iretable-tools are recorded here. This project follows
 [Semantic Versioning](https://semver.org/).
 
+## [1.0.1] - 2026-09-26
+
+### Fixed
+
+- **`show` escapes control characters in descriptions.** A description with a
+  newline no longer breaks the row. A newline prints as `\n`, a carriage return
+  as `\r`, a tab as `\t`, and any other control character as `\xNN`. A
+  backslash prints as-is. `diff`, `lint` and the `lossy:` lines from `convert`
+  and `export` follow the same rule. `--json` output is unchanged.
+- **American spelling in messages.** `show`, `lint` and the reader now use
+  American spelling, such as "unrecognized".
+- **Docs on `--json` and `rebase`.** The README and `--help` now list `convert`
+  among the commands that take `--json`. They also say what `rebase` shifts:
+  fixed addresses and the base of any pointer chain that starts at a fixed
+  address. Module-rooted entries are left alone.
+
 ## [1.0.0] - 2026-09-25
 
 The first release.

@@ -3,7 +3,7 @@
 # fetch Catch2, and keeping the floor the same avoids surprises across the set.
 cmake_minimum_required(VERSION 3.28)
 
-project(iretable-tools VERSION 1.0.0 LANGUAGES CXX)
+project(iretable-tools VERSION 1.0.1 LANGUAGES CXX)
 
 if(NOT MSVC)
     # The tool is standard C++20 and would build elsewhere, but it is developed,
@@ -70,6 +70,8 @@ target_link_libraries(iretable_core PRIVATE iretable_warnings)
 add_executable(iretable src/cli/main.cpp)
 target_link_libraries(iretable PRIVATE iretable_core iretable_warnings)
 set_target_properties(iretable PROPERTIES OUTPUT_NAME iretable)
+# --version prints the project() version, so it always matches the zip name.
+target_compile_definitions(iretable PRIVATE IRETABLE_VERSION="${PROJECT_VERSION}")
 
 # ---------------------------------------------------------------------------
 # Tests
