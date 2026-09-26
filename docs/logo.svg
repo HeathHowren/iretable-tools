@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#0f2235"/>
+  <rect width="64" height="4" fill="#c0392b"/>
+  <!-- The project file: a table of address-list rows. -->
+  <rect x="11" y="13" width="26" height="34" rx="3" fill="none" stroke="#ffffff" stroke-width="3"/>
+  <line x1="17" y1="21" x2="31" y2="21" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+  <line x1="17" y1="28" x2="31" y2="28" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+  <line x1="17" y1="35" x2="27" y2="35" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+  <!-- A pointer chain hopping out of the file: base, offset, value. -->
+  <circle cx="41" cy="24" r="4" fill="#e67e22"/>
+  <path d="M45 24 H51 V40" fill="none" stroke="#e67e22" stroke-width="3"/>
+  <circle cx="51" cy="44" r="4" fill="#e67e22"/>
+</svg>
