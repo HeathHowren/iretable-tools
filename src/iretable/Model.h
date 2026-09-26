@@ -108,7 +108,7 @@ struct Table {
     std::vector<Script> scripts;
     std::vector<Structure> structures;
     std::vector<Entry> entries;
-    // Records whose type this tool does not recognise, kept verbatim so a file
+    // Records whose type this tool does not recognize, kept verbatim so a file
     // written by a newer Pointer Lab round-trips without losing them. Pointer
     // Lab itself only counts and skips these; iretable-tools preserves them.
     std::vector<std::string> unknownRecords;

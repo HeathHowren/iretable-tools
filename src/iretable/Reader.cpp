@@ -100,7 +100,7 @@ LoadResult read(const std::string& text) {
             } else if (parts[1] == "x64") {
                 table.lastBitness = Bitness::X64;
             } else {
-                warn(lineNumber, "bad-bitness", "Unrecognised target bitness \"" + parts[1] + "\"; assuming 64-bit.");
+                warn(lineNumber, "bad-bitness", "Unrecognized target bitness \"" + parts[1] + "\"; assuming 64-bit.");
             }
         } else if (parts[0] == "symbol" && parts.size() >= 3) {
             if (parts[1].empty() || parts[2].empty()) {
@@ -188,7 +188,7 @@ LoadResult read(const std::string& text) {
             // so do we, but they are reported so lint can flag them.
             warn(lineNumber, "incomplete-record", "Incomplete \"" + parts[0] + "\" record; ignoring it.");
         } else {
-            // An unrecognised record type. Pointer Lab counts and drops these;
+            // An unrecognized record type. Pointer Lab counts and drops these;
             // iretable-tools keeps the raw line so it survives a round-trip.
             table.unknownRecords.push_back(line);
         }

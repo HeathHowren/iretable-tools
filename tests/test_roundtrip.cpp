@@ -123,7 +123,7 @@ TEST_CASE("version 3 files parse chains, escaping and preserve unknown records")
     REQUIRE(ammo.chain->moduleName == "helper.exe");
     REQUIRE(ammo.chain->offsets.empty());
 
-    // The unrecognised record is preserved verbatim.
+    // The unrecognized record is preserved verbatim.
     REQUIRE(loaded.table.unknownRecords.size() == 1);
     REQUIRE(loaded.table.unknownRecords[0] == "customrecord|keep me|verbatim\\|field");
 

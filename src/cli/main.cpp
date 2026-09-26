@@ -37,9 +37,16 @@ int usage(std::ostream& out) {
         << "  iretable rebase  <in.iretable> --old-base <hex> --new-base <hex> [-o <out.iretable>]\n"
         << "  iretable lint    <in.iretable> [--json]\n"
         << "\n"
-        << "  --json    machine-readable output (show, diff, lint)\n"
+        << "  --json    machine-readable output (show, convert, diff, lint)\n"
         << "  --version print the version\n"
         << "  --help    print this help\n"
+        << "\n"
+        << "convert --json still writes the file, then prints the entry count and the\n"
+        << "lossy notes as JSON.\n"
+        << "\n"
+        << "rebase adds (new base - old base) to every fixed address and to the base of\n"
+        << "every pointer chain that starts at a fixed address. It leaves module-rooted\n"
+        << "entries, chain offsets, symbols, scripts and structures alone.\n"
         << "\n"
         << "Exit codes: diff and lint return 1 when there are differences or problems,\n"
         << "2 on a usage or read error. Other commands return 0 on success, 2 on error.\n";
@@ -233,7 +240,7 @@ int cmdShow(const std::vector<std::string>& args) {
         std::cout << "\n      " << locationString(entry) << "\n";
     }
     if (!table.unknownRecords.empty()) {
-        std::cout << "\n" << table.unknownRecords.size() << " preserved unrecognised record(s)\n";
+        std::cout << "\n" << table.unknownRecords.size() << " preserved unrecognized record(s)\n";
     }
     for (const auto& issue : loaded.issues) {
         std::cerr << "warning: line " << issue.line << ": " << issue.message << "\n";

@@ -52,6 +52,7 @@ TEST_CASE("a preserved unknown record is a note, not a problem") {
     REQUIRE(result.readable);
     REQUIRE(result.clean()); // v3.iretable is otherwise well formed
     REQUIRE(hasCategory(result.notes, "unknown-record"));
+    REQUIRE(result.notes.at(0).message == "Preserved unrecognized record: customrecord|keep me|verbatim\\|field");
 }
 
 TEST_CASE("a bad header fails the lint") {

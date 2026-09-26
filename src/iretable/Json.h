@@ -27,7 +27,7 @@ public:
     // Set a key on an object. Insertion order is preserved for stable output.
     Value& set(std::string key, Value v);
 
-    // Serialise. indent 0 means compact (one line); a positive indent
+    // Serialize. indent 0 means compact (one line); a positive indent
     // pretty-prints with that many spaces per level.
     [[nodiscard]] std::string dump(int indent = 2) const;
 

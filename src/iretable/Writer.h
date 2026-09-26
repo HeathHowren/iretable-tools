@@ -7,7 +7,7 @@
 
 namespace iretable {
 
-// Serialise a table to .iretable text, LF line endings, no BOM. Records are
+// Serialize a table to .iretable text, LF line endings, no BOM. Records are
 // written in Pointer Lab's canonical order (pid, process, bitness, symbols,
 // scripts, structures, entries). Preserved unknown records follow the entries.
 //

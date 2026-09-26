@@ -12,7 +12,7 @@ namespace iretable {
 // or a bad header, which is a failure in itself. problems are the lines a file
 // should not contain: malformed records, bad hex, broken pointer chains,
 // duplicate ids, a frozen entry with nothing to freeze. notes are informational
-// and do not fail the lint, such as unrecognised records that were preserved.
+// and do not fail the lint, such as unrecognized records that were preserved.
 struct LintResult {
     bool readable{};
     std::string error;

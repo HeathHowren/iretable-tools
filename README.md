@@ -11,12 +11,12 @@ A command-line toolkit for Pointer Lab `.iretable` project files.
 `iretable` reads and writes the project files Pointer Lab saves: the address
 list, its pointer chains, the value types, structures and scripts. From the
 command line it converts a Cheat Engine `.CT` table into one, exports back where
-the fields map, diffs two tables, shifts static addresses after a rebase, and
+the fields map, diffs two tables, shifts fixed addresses after a rebase, and
 lints a file for problems. It touches files on disk only. It never opens a
 process.
 
 iretable-tools is written by Heath Howren
-([Cyborg Elf](https://www.youtube.com/c/cyborgelf)) of
+([Cyborg Elf](https://www.youtube.com/cyborgelf)) of
 [Game Reversal Club](https://gamereversal.club) as a command-line companion to
 [Pointer Lab](https://gamereversal.club/tools/pointer-lab/), whose `.iretable`
 format it implements from the published
@@ -59,14 +59,15 @@ deliberately broken table used by the tests.*
   state and hotkeys.
 - **Diffs two tables** at the entry level: added, removed and changed rows,
   matched by description and location, with the changed fields named.
-- **Rebases static addresses** by a base delta. Module-rooted pointer chains are
-  left alone, because they are stored relative to their module and survive a
-  relocation on their own.
+- **Rebases fixed addresses** by a base delta. It shifts each fixed-address
+  entry and the base of each pointer chain that starts at a fixed address.
+  Module-rooted entries are left alone, because they are stored relative to
+  their module and survive a relocation on their own.
 - **Lints a file** for malformed lines, bad hex, unknown value types, broken
   pointer chains, duplicate ids and frozen entries with no value, and exits
   non-zero when it finds any.
-- **Speaks JSON.** `--json` on `show`, `diff` and `lint` gives scriptable
-  output.
+- **Speaks JSON.** `--json` on `show`, `convert`, `diff` and `lint` gives
+  scriptable output.
 - **No runtime dependencies.** The `.CT` reader is a small hand-written XML
   parser, and the CLI is standard C++20 with a static C runtime, so the released
   binary runs on a clean Windows machine.
@@ -120,13 +121,21 @@ iretable lint    <in.iretable> [--json]
 - `convert` writes an `.iretable`. Fields with no home in the format are printed
   to stderr as `lossy:` lines; the exit code is still 0, because the import
   succeeded. Cheat Engine hotkeys, freeze state and auto-assembler scripts are
-  the usual ones reported.
+  the usual ones reported. With `--json` it still writes the file. It then
+  prints one JSON object to standard output with the entry count and the lossy
+  notes. This replaces the summary line and the `lossy:` lines.
 - `export` writes a `.CT`. Symbols, scripts, structures, freeze state and
   hotkeys have no Cheat Engine counterpart and are reported.
 - `diff` and `lint` return `1` when there are differences or problems and `2` on
   a read error, so they drop straight into a script or a pre-commit check.
-- `rebase` writes to `-o`, or to standard output when `-o` is absent, and prints
-  a one-line summary to stderr.
+- `rebase` adds the delta (`--new-base` minus `--old-base`) to every
+  fixed-address entry. It adds the same delta to the base of every pointer
+  chain that starts at a fixed address. The chain's offsets stay the same. It
+  does not check whether an address is inside the module, so every fixed
+  address moves. Module-rooted entries are left alone, both pointer chains and
+  static addresses like `Tutorial.exe+0x2e5a0`. Symbols, scripts and structures
+  are not changed. The result goes to `-o`, or to standard output when `-o` is
+  absent. A one-line summary goes to stderr.
 
 Pointer chains are shown base-first, the way `.iretable` stores them:
 `Tutorial.exe+0x2e5a0 -> 0x10 -> 0x0 -> 0x18`. A static module address with no

@@ -14,7 +14,7 @@ The first release.
   struct and entry records, and pointer chains. The writer produces Pointer
   Lab's canonical form byte for byte, so the two tools read and write the same
   files. A UTF-8 byte-order mark before the header is tolerated.
-- **Unknown records are preserved.** A record type this tool does not recognise
+- **Unknown records are preserved.** A record type this tool does not recognize
   is kept verbatim and written back, so a file from a newer Pointer Lab round-
   trips without losing anything. Pointer Lab itself only skips them.
 - **`convert`,** a Cheat Engine `.CT` importer. Descriptions, value types,

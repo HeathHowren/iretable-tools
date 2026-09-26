@@ -134,7 +134,7 @@ ParsedAddress parseCheatAddress(const std::string& raw) {
 }
 
 // Which Cheat Engine child elements carry data that .iretable cannot hold. Only
-// these are reported per entry; display-only fields (colours, hex/signed
+// these are reported per entry; display-only fields (colors, hex/signed
 // toggles) are ignored quietly.
 bool isReportedLossyField(const std::string& name) {
     return name == "Hotkeys" || name == "AssemblerScript";

@@ -46,7 +46,7 @@ LintResult lint(const LoadResult& loaded) {
     // Preserved unknown records are not a failure; the format is deliberately
     // extensible. They are noted so the user knows they are there.
     for (const auto& record : loaded.table.unknownRecords) {
-        result.notes.push_back({0, Severity::Warning, "unknown-record", "Preserved unrecognised record: " + record});
+        result.notes.push_back({0, Severity::Warning, "unknown-record", "Preserved unrecognized record: " + record});
     }
 
     return result;
