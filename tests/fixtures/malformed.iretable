@@ -1,0 +1,7 @@
+IRETABLE 3
+field|0|u64|0|orphan
+entry|1|zzzz|i32|0|Bad address|G||
+entry|2|2000|weirdtype|0|Bad type|G||
+entry|3|3000|i32|0|Bad chain|G|||mod.dll|xyz|10,8
+entry|4|4000|i32|1|Frozen no value|G||
+entry|4|5000|i32|0|Duplicate id|G||

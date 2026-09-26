@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="45">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Health"</Description>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>"Tutorial.exe"+2E5A0</Address>
+      <Offsets>
+        <Offset>18</Offset>
+        <Offset>0</Offset>
+        <Offset>10</Offset>
+      </Offsets>
+      <Hotkeys>
+        <Hotkey>
+          <Action>Toggle Freeze</Action>
+          <Keys><Key>112</Key></Keys>
+        </Hotkey>
+      </Hotkeys>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"Ammo &amp; clips"</Description>
+      <VariableType>2 Bytes</VariableType>
+      <Address>"Tutorial.exe"+2E5A8</Address>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>2</ID>
+      <Description>"Player group"</Description>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>3</ID>
+          <Description>"Speed"</Description>
+          <VariableType>Float</VariableType>
+          <Address>13FA40000</Address>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>4</ID>
+          <Description>"Name"</Description>
+          <VariableType>String</VariableType>
+          <Length>16</Length>
+          <Unicode>1</Unicode>
+          <Address>"Tutorial.exe"+3A100</Address>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+</CheatTable>

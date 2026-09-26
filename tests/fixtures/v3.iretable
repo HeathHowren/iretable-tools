@@ -1,0 +1,13 @@
+IRETABLE 3
+pid|4812
+process|helper.exe
+bitness|x64
+symbol|health|helper.exe+0x4a2c10
+script|note|[ENABLE]\ndo stuff
+struct|Player
+field|0|u64|0|vtable
+field|8|f32|0|health
+entry|1|7ff6a1c02040|i32|1|Player health|Stats|F1|64000000||0|
+entry|2|0|i32|0|Score|Stats|||helper.exe|3040|10,8
+entry|3|0|i32|0|weird\|desc\\path\nline2|Stats|||helper.exe|3040|
+customrecord|keep me|verbatim\|field

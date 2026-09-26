@@ -1,0 +1,5 @@
+IRETABLE 2
+pid|1234
+process|old.exe
+entry|1|400000|i32|0|Score|Main||
+entry|2|401000|u16|0|Ammo|Main||||extra-ignored-field
