@@ -50,3 +50,6 @@ The first release.
 - **`--json`** on `show`, `diff` and `lint`, for scripting.
 - No third-party runtime dependency: the `.CT` reader is a small hand-written
   XML parser, and the CLI is standard C++20 with a static C runtime.
+
+[1.0.1]: https://github.com/HeathHowren/iretable-tools/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/HeathHowren/iretable-tools/releases/tag/v1.0.0
