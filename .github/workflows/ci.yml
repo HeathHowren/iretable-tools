@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+env:
+  DEPS_CACHE_VERSION: v1
+
+jobs:
+  build:
+    name: Build and test (${{ matrix.config }})
+    # Pinned, not windows-latest: the generator below names a specific
+    # Visual Studio, and a runner-image roll forward would remove it.
+    runs-on: windows-2022
+    strategy:
+      fail-fast: false
+      matrix:
+        config: [Debug, Release]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # tests/CMakeLists.txt pins Catch2, the only fetched dependency.
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: build/_deps
+          key: deps-${{ env.DEPS_CACHE_VERSION }}-${{ matrix.config }}-${{ hashFiles('tests/CMakeLists.txt') }}
+          restore-keys: |
+            deps-${{ env.DEPS_CACHE_VERSION }}-${{ matrix.config }}-
+
+      - name: Configure
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build
+        run: cmake --build build --config ${{ matrix.config }}
+
+      - name: Test
+        run: ctest --test-dir build -C ${{ matrix.config }} --output-on-failure
+
+      - name: Package
+        if: matrix.config == 'Release'
+        run: cpack --config build/CPackConfig.cmake -C Release -B build/package
+
+      - name: Upload artifact
+        if: matrix.config == 'Release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: iretable-tools
+          path: build/package/*.zip
+          if-no-files-found: error
+
+  release:
+    name: Attach build to release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: iretable-tools
+          path: dist
+
+      - name: Publish
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
+          body: |
+            The zip holds `iretable.exe` and the documents. It needs nothing
+            else installed; the C runtime is linked statically.
+
+            The binary is **unsigned**, so antivirus software or SmartScreen
+            may warn on first run. Build from source if you would rather not
+            take a binary on trust.
+
+            See CHANGELOG.md for what is new and THIRD_PARTY_NOTICES.md for
+            licensing (iretable-tools is MIT).
