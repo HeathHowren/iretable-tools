@@ -1,0 +1,4 @@
+# The test fixtures are byte-exact: the round-trip test compares the writer's
+# LF output against the file on disk. Keep them verbatim on every platform so a
+# Windows checkout with autocrlf does not rewrite the line endings and break it.
+tests/fixtures/** -text
