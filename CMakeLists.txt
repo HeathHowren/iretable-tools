@@ -3,7 +3,7 @@
 # fetch Catch2, and keeping the floor the same avoids surprises across the set.
 cmake_minimum_required(VERSION 3.28)
 
-project(iretable-tools VERSION 1.0.1 LANGUAGES CXX)
+project(iretable-tools VERSION 1.0.2 LANGUAGES CXX)
 
 if(NOT MSVC)
     # The tool is standard C++20 and would build elsewhere, but it is developed,

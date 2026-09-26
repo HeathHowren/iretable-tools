@@ -455,13 +455,7 @@ int cmdRebase(const std::vector<std::string>& args) {
             return 2;
         }
     }
-    std::cerr << "Rebased " << result.shifts.size() << " static address(es) by 0x"
-              << toHexLower(*newBase - *oldBase) << ".";
-    if (result.moduleRootedSkipped > 0) {
-        std::cerr << " Left " << result.moduleRootedSkipped
-                  << " module-rooted chain(s) untouched; they survive a relocation on their own.";
-    }
-    std::cerr << "\n";
+    std::cerr << rebaseSummary(result, *oldBase, *newBase) << "\n";
     return 0;
 }
 

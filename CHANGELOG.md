@@ -3,6 +3,16 @@
 All notable changes to iretable-tools are recorded here. This project follows
 [Semantic Versioning](https://semver.org/).
 
+## [1.0.2] - 2026-09-26
+
+### Fixed
+
+- **The `rebase` summary says what moved.** It said "static address(es)" and
+  counted pointer chain bases among them. It now counts fixed addresses and
+  pointer chain bases separately, and calls the entries it leaves alone
+  module-rooted entries. A downward move prints a negative delta, such as
+  `-0x10000000`, instead of the wrapped 64-bit value. A new test covers it.
+
 ## [1.0.1] - 2026-09-26
 
 ### Fixed
