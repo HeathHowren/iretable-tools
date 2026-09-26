@@ -8,6 +8,7 @@
 #include "iretable/Model.h"
 #include "iretable/Reader.h"
 #include "iretable/Rebase.h"
+#include "iretable/Show.h"
 #include "iretable/Text.h"
 #include "iretable/ValueType.h"
 #include "iretable/Writer.h"
@@ -214,36 +215,9 @@ int cmdShow(const std::vector<std::string>& args) {
         return 0;
     }
 
-    const auto& table = loaded.table;
-    std::cout << "IRETABLE version " << table.version << "\n";
-    std::cout << "process " << (table.lastProcessName.empty() ? "(none)" : table.lastProcessName) << ", pid "
-              << table.lastPid << ", " << bitnessName(table.lastBitness) << "\n";
-    if (!table.symbols.empty()) {
-        std::cout << table.symbols.size() << " symbol(s), ";
-    }
-    if (!table.scripts.empty()) {
-        std::cout << table.scripts.size() << " script(s), ";
-    }
-    if (!table.structures.empty()) {
-        std::cout << table.structures.size() << " structure(s), ";
-    }
-    std::cout << table.entries.size() << " entr" << (table.entries.size() == 1 ? "y" : "ies") << "\n\n";
-    for (const auto& entry : table.entries) {
-        std::cout << "  #" << entry.id << "  " << valueTypeName(entry.type) << "  "
-                  << (entry.description.empty() ? "(no description)" : entry.description);
-        if (!entry.group.empty()) {
-            std::cout << "  [" << entry.group << "]";
-        }
-        if (entry.frozen) {
-            std::cout << "  frozen";
-        }
-        std::cout << "\n      " << locationString(entry) << "\n";
-    }
-    if (!table.unknownRecords.empty()) {
-        std::cout << "\n" << table.unknownRecords.size() << " preserved unrecognized record(s)\n";
-    }
+    std::cout << formatTable(loaded.table);
     for (const auto& issue : loaded.issues) {
-        std::cerr << "warning: line " << issue.line << ": " << issue.message << "\n";
+        std::cerr << "warning: line " << issue.line << ": " << escapeForDisplay(issue.message) << "\n";
     }
     return 0;
 }
@@ -299,7 +273,7 @@ int cmdConvert(const std::vector<std::string>& args) {
         std::cout << obj.dump() << "\n";
     } else {
         for (const auto& note : converted.lossy) {
-            std::cerr << "lossy: " << note << "\n";
+            std::cerr << "lossy: " << escapeForDisplay(note) << "\n";
         }
         std::cout << "Imported " << converted.table.entries.size() << " entr"
                   << (converted.table.entries.size() == 1 ? "y" : "ies") << " to " << output;
@@ -355,7 +329,7 @@ int cmdExport(const std::vector<std::string>& args) {
         return 2;
     }
     for (const auto& note : exported.lossy) {
-        std::cerr << "lossy: " << note << "\n";
+        std::cerr << "lossy: " << escapeForDisplay(note) << "\n";
     }
     std::cout << "Exported " << loaded.table.entries.size() << " entr"
               << (loaded.table.entries.size() == 1 ? "y" : "ies") << " to " << output;
@@ -424,25 +398,8 @@ int cmdDiff(const std::vector<std::string>& args) {
         return result.empty() ? 0 : 1;
     }
 
-    if (result.empty()) {
-        std::cout << "No differences.\n";
-        return 0;
-    }
-    for (const auto& entry : result.removed) {
-        std::cout << "- " << (entry.description.empty() ? "(no description)" : entry.description) << "  "
-                  << locationString(entry) << "\n";
-    }
-    for (const auto& entry : result.added) {
-        std::cout << "+ " << (entry.description.empty() ? "(no description)" : entry.description) << "  "
-                  << locationString(entry) << "\n";
-    }
-    for (const auto& change : result.changed) {
-        std::cout << "~ " << (change.after.description.empty() ? "(no description)" : change.after.description) << "\n";
-        for (const auto& field : change.changes) {
-            std::cout << "    " << field.field << ": " << field.before << " -> " << field.after << "\n";
-        }
-    }
-    return 1;
+    std::cout << formatDiff(result);
+    return result.empty() ? 0 : 1;
 }
 
 int cmdRebase(const std::vector<std::string>& args) {
@@ -545,10 +502,10 @@ int cmdLint(const std::vector<std::string>& args) {
         if (problem.line > 0) {
             std::cerr << "line " << problem.line << ": ";
         }
-        std::cerr << problem.category << ": " << problem.message << "\n";
+        std::cerr << problem.category << ": " << escapeForDisplay(problem.message) << "\n";
     }
     for (const auto& note : result.notes) {
-        std::cout << "note: " << note.message << "\n";
+        std::cout << "note: " << escapeForDisplay(note.message) << "\n";
     }
     if (result.problems.empty()) {
         std::cout << "Clean: no problems found.\n";

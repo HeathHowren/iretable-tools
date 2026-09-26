@@ -30,6 +30,19 @@ TEST_CASE("escape then unescape is the identity for awkward fields") {
     }
 }
 
+TEST_CASE("escapeForDisplay keeps text on one line") {
+    REQUIRE(escapeForDisplay("line1\nline2") == "line1\\nline2");
+    REQUIRE(escapeForDisplay("cr\rtab\t") == "cr\\rtab\\t");
+    // Any other control byte becomes \xNN in lower-case hex.
+    REQUIRE(escapeForDisplay(std::string("nul\0end", 7)) == "nul\\x00end");
+    REQUIRE(escapeForDisplay("esc\x1b[0m") == "esc\\x1b[0m");
+    REQUIRE(escapeForDisplay("del\x7f") == "del\\x7f");
+    // A backslash and a pipe print as-is, and UTF-8 text passes through.
+    REQUIRE(escapeForDisplay("C:\\Games|x") == "C:\\Games|x");
+    REQUIRE(escapeForDisplay("caf\xc3\xa9") == "caf\xc3\xa9");
+    REQUIRE(escapeForDisplay("plain text") == "plain text");
+}
+
 TEST_CASE("splitEscaped splits on unescaped pipes only") {
     const auto parts = splitEscaped("entry|a\\|b|c\\\\d");
     REQUIRE(parts.size() == 3);

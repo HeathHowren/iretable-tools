@@ -35,6 +35,12 @@ struct DiffResult {
 
 DiffResult diff(const Table& before, const Table& after);
 
+// The text form of `iretable diff`: "- " for a removed entry, "+ " for an added
+// one, "~ " for a changed one with its changed fields below, or "No
+// differences." Text from the files goes through escapeForDisplay, so each
+// item stays on its own line.
+std::string formatDiff(const DiffResult& result);
+
 // A one-line human-readable form of where an entry points: "fixed 0x1000",
 // "helper.exe+0x3040" for a static base, or a chain with its offsets.
 std::string locationString(const Entry& entry);

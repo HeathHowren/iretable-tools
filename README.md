@@ -142,6 +142,11 @@ Pointer chains are shown base-first, the way `.iretable` stores them:
 dereferencing shows as `Tutorial.exe+0x2e5a0`, and a fixed address as
 `fixed 0x140a40000`.
 
+Text output prints control characters as escapes, so each entry stays on its
+row. A newline shows as `\n`, a carriage return as `\r`, a tab as `\t`, and any
+other control character as `\xNN`. A backslash prints as-is. `--json` keeps the
+exact text.
+
 ### What it does not do
 
 - It does not attach to, read or modify any process. It is a file tool.

@@ -17,6 +17,14 @@ std::string escape(const std::string& text);
 // and the following byte is taken literally; a trailing backslash is dropped.
 std::string unescape(const std::string& text);
 
+// Make text safe to print on one line of human-readable output. Newline,
+// carriage return and tab become \n, \r and \t. Any other control byte (below
+// 0x20, or 0x7f) becomes \xNN in lower-case hex. A backslash is printed as-is,
+// and bytes from 0x80 up pass through, so UTF-8 text stays readable. This is
+// for display only: it is not the file escaping, and it is not reversible.
+// The --json output carries the exact text instead.
+std::string escapeForDisplay(const std::string& text);
+
 // Split a line on unescaped pipes, then unescape each field. Splitting happens
 // before unescaping, so an escaped \| never ends a field.
 std::vector<std::string> splitEscaped(const std::string& line);

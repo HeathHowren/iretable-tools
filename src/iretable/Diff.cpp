@@ -94,4 +94,28 @@ DiffResult diff(const Table& before, const Table& after) {
     return result;
 }
 
+std::string formatDiff(const DiffResult& result) {
+    if (result.empty()) {
+        return "No differences.\n";
+    }
+    const auto label = [](const Entry& entry) {
+        return entry.description.empty() ? std::string("(no description)") : escapeForDisplay(entry.description);
+    };
+    std::string out;
+    for (const auto& entry : result.removed) {
+        out += "- " + label(entry) + "  " + escapeForDisplay(locationString(entry)) + "\n";
+    }
+    for (const auto& entry : result.added) {
+        out += "+ " + label(entry) + "  " + escapeForDisplay(locationString(entry)) + "\n";
+    }
+    for (const auto& change : result.changed) {
+        out += "~ " + label(change.after) + "\n";
+        for (const auto& field : change.changes) {
+            out += "    " + field.field + ": " + escapeForDisplay(field.before) + " -> " +
+                   escapeForDisplay(field.after) + "\n";
+        }
+    }
+    return out;
+}
+
 } // namespace iretable

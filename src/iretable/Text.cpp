@@ -45,6 +45,29 @@ std::string unescape(const std::string& text) {
     return out;
 }
 
+std::string escapeForDisplay(const std::string& text) {
+    static constexpr char digits[] = "0123456789abcdef";
+    std::string out;
+    out.reserve(text.size());
+    for (const char ch : text) {
+        const auto c = static_cast<unsigned char>(ch);
+        if (c == '\n') {
+            out += "\\n";
+        } else if (c == '\r') {
+            out += "\\r";
+        } else if (c == '\t') {
+            out += "\\t";
+        } else if (c < 0x20 || c == 0x7f) {
+            out += "\\x";
+            out.push_back(digits[c >> 4]);
+            out.push_back(digits[c & 0xF]);
+        } else {
+            out.push_back(ch);
+        }
+    }
+    return out;
+}
+
 std::vector<std::string> splitEscaped(const std::string& line) {
     std::vector<std::string> parts;
     std::string current;

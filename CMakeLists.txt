@@ -53,6 +53,7 @@ add_library(iretable_core STATIC
     src/iretable/Lint.cpp
     src/iretable/Reader.cpp
     src/iretable/Rebase.cpp
+    src/iretable/Show.cpp
     src/iretable/Text.cpp
     src/iretable/ValueType.cpp
     src/iretable/Writer.cpp

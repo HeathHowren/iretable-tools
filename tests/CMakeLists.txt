@@ -15,6 +15,7 @@ add_executable(iretable_tests
     test_diff.cpp
     test_rebase.cpp
     test_lint.cpp
+    test_show.cpp
     test_xml.cpp
 )
 target_include_directories(iretable_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})

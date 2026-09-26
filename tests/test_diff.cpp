@@ -58,6 +58,25 @@ TEST_CASE("two identical tables diff to nothing") {
     REQUIRE(diff(table, table).empty());
 }
 
+TEST_CASE("formatDiff keeps each entry on its own line") {
+    Table before;
+    before.entries.push_back(fixed(1, "old\nrow", 0x1000));
+    Entry score = fixed(2, "Score", 0x2000);
+    score.group = "a";
+    before.entries.push_back(score);
+
+    Table after;
+    after.entries.push_back(fixed(3, "new\trow", 0x3000));
+    score.group = "b\nc";
+    after.entries.push_back(score);
+
+    REQUIRE(formatDiff(diff(before, after)) == "- old\\nrow  fixed 0x1000\n"
+                                               "+ new\\trow  fixed 0x3000\n"
+                                               "~ Score\n"
+                                               "    group: a -> b\\nc\n");
+    REQUIRE(formatDiff(diff(before, before)) == "No differences.\n");
+}
+
 TEST_CASE("locationString describes fixed, static and chained entries") {
     Entry e = fixed(1, "X", 0x1234);
     REQUIRE(locationString(e) == "fixed 0x1234");
